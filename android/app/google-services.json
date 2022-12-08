@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "846570771889",
+    "project_id": "panda-8e719",
+    "storage_bucket": "panda-8e719.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846570771889:android:741d9f9caa8a99fe005990",
+        "android_client_info": {
+          "package_name": "com.koala.panda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846570771889-o6h9o742266b00uqe6gbqlcsuibsip69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwLg57rXqA-3WqhJTwZlvei3VYokRubJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846570771889-o6h9o742266b00uqe6gbqlcsuibsip69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
