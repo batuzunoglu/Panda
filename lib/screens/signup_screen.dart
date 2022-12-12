@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:panda/resources/auth_methods.dart';
 import 'package:panda/widgets/text_field_input.dart';
 
 import '../utils/colors.dart';
@@ -14,16 +15,18 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _companyCodeController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _bioController.dispose();
+    _companyCodeController.dispose();
     _usernameController.dispose();
+    _subjectController.dispose();
   }
 
   @override
@@ -72,14 +75,32 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your bio',
+                hintText: 'Enter your Company Code',
                 textInputType: TextInputType.emailAddress,
-                textEditingController: _bioController,
+                textEditingController: _companyCodeController,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFieldInput(
+                hintText: 'Enter your subject',
+                textInputType: TextInputType.emailAddress,
+                textEditingController: _subjectController,
               ),
               const SizedBox(
                 height: 24,
               ),
               InkWell(
+                onTap: () async {
+                  String res = await AuthMethods().signUpUser(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                    username: _usernameController.text,
+                    companyCode: _companyCodeController.text,
+                    subject: _subjectController.text,
+                  );
+                  print(res);
+                },
                 child: Container(
                   child: const Text('Sign Up'),
                   width: double.infinity,
