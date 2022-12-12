@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:panda/resources/auth_methods.dart';
+import 'package:panda/utils/utils.dart';
 import 'package:panda/widgets/text_field_input.dart';
 
 import '../utils/colors.dart';
@@ -18,6 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _companyCodeController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -27,6 +31,29 @@ class _SignupScreenState extends State<SignupScreen> {
     _companyCodeController.dispose();
     _usernameController.dispose();
     _subjectController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+      companyCode: _companyCodeController.text,
+      subject: _subjectController.text,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+    if (res != 'succcess') {
+      showSnackBar(res, context);
+    }
   }
 
   @override
@@ -91,18 +118,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               InkWell(
-                onTap: () async {
-                  String res = await AuthMethods().signUpUser(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    username: _usernameController.text,
-                    companyCode: _companyCodeController.text,
-                    subject: _subjectController.text,
-                  );
-                  print(res);
-                },
+                onTap: signUpUser,
                 child: Container(
-                  child: const Text('Sign Up'),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text('Sign Up'),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
