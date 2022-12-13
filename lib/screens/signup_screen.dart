@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:panda/resources/auth_methods.dart';
+import 'package:panda/screens/login_screen.dart';
 import 'package:panda/utils/utils.dart';
 import 'package:panda/widgets/text_field_input.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/colors.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -53,7 +57,24 @@ class _SignupScreenState extends State<SignupScreen> {
     });
     if (res != 'succcess') {
       showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     }
+  }
+
+  void navigateToLogIn() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -143,31 +164,31 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 12,
               ),
               Flexible(child: Container(), flex: 2),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Container(
-              //       child: const Text("Don't have an account?"),
-              //       padding: const EdgeInsets.symmetric(
-              //         vertical: 8,
-              //       ),
-              //     ),
-              //     GestureDetector(
-              //       onTap: () {},
-              //       child: Container(
-              //         child: const Text(
-              //           "Sign up.",
-              //           style: TextStyle(
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //         padding: const EdgeInsets.symmetric(
-              //           vertical: 8,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: const Text("Don't have an account?"),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: navigateToLogIn,
+                    child: Container(
+                      child: const Text(
+                        "Login.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

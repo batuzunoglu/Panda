@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:panda/resources/auth_methods.dart';
-import 'package:panda/screens/home_screen.dart';
+import 'package:panda/responsive/mobile_screen_layout.dart';
+import 'package:panda/responsive/responsive_layout_screen.dart';
+import 'package:panda/responsive/web_screen_layout.dart';
+import 'package:panda/screens/signup_screen.dart';
 import 'package:panda/utils/colors.dart';
 import 'package:panda/utils/utils.dart';
 
@@ -35,13 +38,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (res == "success") {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()));
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
       showSnackBar(res, context);
     }
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void navigateToSignUp() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignupScreen(),
+      ),
+    );
   }
 
   @override
@@ -119,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToSignUp,
                     child: Container(
                       child: const Text(
                         "Sign up.",
