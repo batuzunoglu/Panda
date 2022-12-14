@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:panda/providers/user_provider.dart';
 import 'package:panda/utils/colors.dart';
+import 'package:panda/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:panda/models/user.dart' as model;
 
@@ -44,13 +45,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: [
-          Center(child: Text('postlar buraya sıralanacak')),
-          Text('search'),
-          Text('add post'),
-          Text('notif'),
-          Text('profile'),
-        ],
+        children: homeScreenItems,
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
