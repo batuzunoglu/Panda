@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:panda/models/user.dart';
+import 'package:panda/providers/user_provider.dart';
+import 'package:panda/resources/firestore_methods.dart';
 import 'package:panda/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/utils.dart';
 
@@ -15,6 +19,35 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
+  bool _isLoading = false;
+
+  void postImage(
+    String uid,
+    String username,
+    String email,
+    String subject,
+    String companyCode,
+    // String profImage, buna gerek yok gibi ?
+  ) async {
+    try {
+      String res = await FirestoreMethods().uploadPost(
+          _descriptionController.text,
+          _subjectController.text,
+          _file!,
+          uid,
+          username,
+          email,
+          companyCode);
+      if (res == "success") {
+        showSnackBar('Yollandı', context);
+      } else {
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -62,7 +95,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _descriptionController.dispose();
+    _subjectController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return _file == null
         ? Center(
             child: IconButton(
@@ -81,7 +123,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
               centerTitle: false,
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => postImage(user.uid, user.username,
+                      user.email, user.subject, user.companyCode),
                   child: const Text(
                     'Post',
                     style: TextStyle(
@@ -131,6 +174,23 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ),
                     ),
                     const Divider(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      child: TextField(
+                        controller: _subjectController,
+                        decoration: const InputDecoration(
+                          hintText: 'Ders ismini yazın...',
+                          border: InputBorder.none,
+                        ),
+                        maxLines: 8,
+                      ),
+                    ),
                   ],
                 )
               ],
