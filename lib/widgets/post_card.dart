@@ -87,6 +87,113 @@ class PostCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          //Like comment section
+          Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.only(
+                  left: 16,
+                ),
+                onPressed: (() {}),
+                icon: Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+              ),
+              // IconButton(
+              //   onPressed: (() {}),
+              //   icon: Icon(
+              //     Icons.comment_outlined,
+              //   ),
+              // ),
+              // IconButton(
+              //   onPressed: (() {}),
+              //   icon: Icon(
+              //     Icons.send,
+              //   ),
+              // ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.bookmark_border),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Desc number of comment
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
+                  child: Text(
+                    'Aytaç Karaoğlan cevapladı',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                  ),
+                  child: RichText(
+                    text: TextSpan(
+                        style: const TextStyle(
+                          color: primaryColor,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'username',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '   Burası sorunun açıklaması..',
+                          ),
+                        ]),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 4,
+                    ),
+                    child: Text(
+                      'Çözümü gör',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    '25/12/2022',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: secondaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
